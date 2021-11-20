@@ -3,23 +3,39 @@ import React, { useState } from 'react';
 
 const App = ()=>{
 
-  const [task, setTask] = useState('');
+  const [inputName, setInputName] = useState('');
   const [tasks, setTasks] = useState([
       { id: 1, name: "Sacar la ropa", done: false },
       { id: 2, name: "Hacer la cama", done: true },
       { id: 3, name: "Leer un rato", done: false }
       ])
 
-      const handleTask = (e)=>{
-        const newTask = e.target.value
-        setTask(newTask) 
+      const handleinputName = (e)=>{
+        const newName = e.target.value
+        setInputName(newName)
+        console.log(newName) 
       }
 
       const handleOnSubmit = (e)=>{
-        e.preventDefault()    
-        setTasks([...tasks, task])
-        setTask('')
+        e.preventDefault()
+      
+        let newTask= {}        
+        newTask.id= tasks.length + 1        
+        newTask.name=inputName      
+        newTask.done=false           
+        setTasks([...tasks, newTask])
+        console.log(newTask)        
+       
       } 
+
+      const taskValidator = () => {
+        if (inputName === '') {           
+        
+        } else {
+          
+        }
+      };
+
   
       // newTask: '' 
   
@@ -28,10 +44,10 @@ const App = ()=>{
         <div className="list">
           <h3>Por hacer:</h3>
           <ul className="todo">
-            {tasks.map((task, index) => <li key={task.id}>{task.name}</li>)}
+            {tasks.map((task, index) => <li className={task.done ? 'done' : ''} key={task.id}>{task.name}</li>)}
           </ul>
           <form onSubmit={handleOnSubmit}>
-            <input type="text" value={task.name} onChange={handleTask} id="new-task" placeholder="Ingresa una tarea y oprime Enter"/>
+            <input onBlur={taskValidator} className='error' type="text" value={inputName} onChange={handleinputName} id="new-task" placeholder="Ingresa una tarea y oprime Enter"/>
           </form>
         </div>
       </div>
