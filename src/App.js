@@ -9,6 +9,9 @@ const App = ()=>{
       { id: 2, name: "Hacer la cama", done: true },
       { id: 3, name: "Leer un rato", done: false }
       ])
+    
+  const [error, setError] = useState(false);
+    
 
       const handleinputName = (e)=>{
         const newName = e.target.value
@@ -18,25 +21,20 @@ const App = ()=>{
 
       const handleOnSubmit = (e)=>{
         e.preventDefault()
-      
-        let newTask= {}        
-        newTask.id= tasks.length + 1        
-        newTask.name=inputName      
-        newTask.done=false           
-        setTasks([...tasks, newTask])
-        console.log(newTask)        
-       
-      } 
+        if( inputName === ''){
+          console.log('entre')
+          setError(true)
 
-      const taskValidator = () => {
-        if (inputName === '') {           
-        
-        } else {
-          
+        }else {
+          let newTask= {}        
+          newTask.id= tasks.length + 1        
+          newTask.name=inputName      
+          newTask.done=false
+          setError(false)          
+          setTasks([...tasks, newTask])
+          setInputName('')              
         }
-      };
-
-  
+      }   
       // newTask: '' 
   
     return (
@@ -47,7 +45,7 @@ const App = ()=>{
             {tasks.map((task, index) => <li className={task.done ? 'done' : ''} key={task.id}>{task.name}</li>)}
           </ul>
           <form onSubmit={handleOnSubmit}>
-            <input onBlur={taskValidator} className='error' type="text" value={inputName} onChange={handleinputName} id="new-task" placeholder="Ingresa una tarea y oprime Enter"/>
+            <input className={error ? 'error' : ''} type="text" value={inputName} onChange={handleinputName} id="new-task" placeholder="Ingresa una tarea y oprime Enter"/>
           </form>
         </div>
       </div>
